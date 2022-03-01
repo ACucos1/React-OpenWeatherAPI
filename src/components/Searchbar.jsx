@@ -29,12 +29,6 @@ export default function Searchbar({setFinalSearch}) {
             
     }
     
-    useEffect(() => {
-        setSearchInput(id)
-        
-        // console.log('Trigger Fetch:', id);
-    },[id])
-    
     
     return (
         <div className="searchbar">
