@@ -8,7 +8,7 @@ export default function Navbar({visited}) {
 
   return (
     <div className="navbar">
-        <h2><Link to="/">Navbar</Link></h2>
+        <h2><Link to="/" className="navlogo">Navbar</Link></h2>
         
         <div className={hideDropDown ? "dropdown hidden" : "dropdown"}>
           <button onClick={() => {setHideDropDown(!hideDropDown)}}>Recently Visited</button>

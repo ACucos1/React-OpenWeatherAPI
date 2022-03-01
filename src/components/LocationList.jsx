@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Display from './Display'
 export default function LocationList({weatherList, visited, setVisited}) {
     // console.log(weatherList)
+    // console.log(weatherList);
     let [page, setPage] = useState(0)
     let [pageWindow, setPageWindow] = useState(0)
     
@@ -9,7 +10,7 @@ export default function LocationList({weatherList, visited, setVisited}) {
 
     const handleNextClick = () => {
         let numPages = weatherList.length/3
-        if(page+1 <= numPages){
+        if(numPages > 1 && page+1 <= numPages){
             setPageWindow(pageWindow+3)
             setPage(page+1)
         }
@@ -22,6 +23,11 @@ export default function LocationList({weatherList, visited, setVisited}) {
             setPage(page-1)
         }
     }
+
+    useEffect(() => {
+        setPage(0)
+        setPageWindow(0)
+    }, [weatherList])
 
     return (
         <div>
@@ -39,7 +45,7 @@ export default function LocationList({weatherList, visited, setVisited}) {
                 })}
             </div>
             
-            : <div>No Results</div>}
+            : <div className="no-results">No Results</div>}
         </div>
     )
 }

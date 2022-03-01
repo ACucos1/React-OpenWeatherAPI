@@ -6,7 +6,6 @@ export default function Display({weather, visited, setVisited}) {
   // console.log(weather)
   const [showDetails, setShowDetails] = useState(false);
   const navigate = useNavigate()
-  // console.log(weather);
 
 
   const handleExpand = () => {
@@ -16,18 +15,30 @@ export default function Display({weather, visited, setVisited}) {
   }
 
   useEffect(() => {
-    if(!weather){
-      navigate('/')
-    }
-  }, [weather])
+    // if(!weather){
+    //   navigate('/')
+    // }
+
+  }, [weather, navigate])
 
 
   return (
     <div className="display">   
-      <h1>{weather && weather.name}</h1>
-      <h2>{getCurrentdate()}</h2>
-      <h3>{kelvinToCelsius(weather && weather.main.temp).toPrecision(2)}&deg;C</h3>
-      <button onClick={handleExpand}>{!showDetails ? "+" : "-"}</button>
+      {weather.error ?
+      <>
+        <h1>Error</h1>
+        <h2>{getCurrentdate()}</h2>
+      </>
+      :
+      <>
+        <h1>{weather && weather.name}</h1>
+        <h2>{getCurrentdate()}</h2>
+        <h3>{kelvinToCelsius(weather && weather.main.temp).toPrecision(2)}&deg;C</h3>
+        <button onClick={handleExpand}>{!showDetails ? "+" : "-"}</button>
+      </>
+      }
+
+      
       {showDetails ? 
         <div>
           <div className="weather">
@@ -48,7 +59,7 @@ export default function Display({weather, visited, setVisited}) {
           </div>
         </div>
         :
-        <div>xx</div>
+        <div></div>
       }
     </div>
   )

@@ -25,9 +25,34 @@ export default function Searchbar({setFinalSearch}) {
         if(searchInput.length > 0){
             setFinalSearch(searchInput)
             navigate('/search/' + searchInput)
-        }
-            
+        }       
     }
+
+    useEffect(() => {
+        if(id){
+            console.log('ID IS: <' + id + ">");
+            setSearchInput(id)
+            setFinalSearch(id)
+        }
+        // eslint-disable-next-line
+    }, [])
+
+
+    useEffect(() => {
+        const listener = (e) => {
+            if(e.code === 'Enter' || e.code === 'NumpadEnter'){
+                e.preventDefault()
+                setFinalSearch(searchInput)
+                navigate('/search/' + searchInput)
+            }
+        }
+        document.addEventListener('keydown', listener)
+
+        return () => {
+            document.removeEventListener('keydown', listener)
+        }
+        // eslint-disable-next-line
+    }, [])
     
     
     return (

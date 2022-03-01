@@ -8,7 +8,7 @@
 * Heroku Link: ____________________
 *
 ********************************************************************************/
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from "./components/Navbar"
 import Searchbar from "./components/Searchbar"
@@ -28,15 +28,15 @@ function App() {
   const [finalSearch, setFinalSearch] = useState("")
   const [finalWeatherList, setFinalWeatherList] = useState([])
   const [loading, setLoading] = useState(true)
-  let cityListJSON = useRef(null)
+  const [cities, setCities] = useState(null)
 
   const getCityList = async () => {
-      if(cityListJSON.current == null){
+      if(!cities){
         console.log("importing city id list")
         let request = await fetch('../city.list.json')
         try {
           let data = await request.json()
-          cityListJSON.current = data;
+          setCities(data);
         } catch (error) {
           console.log(error)
         }
@@ -45,42 +45,53 @@ function App() {
 
   useEffect(() => {
     getCityList()
-    
-  }, [finalSearch])
+  // eslint-disable-next-line
+  }, [])
 
   useEffect(() => {
     const fetchCities = async (cityName) => {
-      console.log('searching city Ids...')
-      console.log(cityListJSON.current);
+      console.log('searching city Ids for <' + cityName + '>')
       let matches = []
-      if(cityListJSON.current){
-        cityListJSON.current.forEach(city => {
+      if(cities && cityName.length > 1){
+        cities.forEach(city => {
           if(city.name.match(cityName)){
             matches.push(city.id)
           }
         })
       }
-      console.log(matches);
+      // console.log(cities);
       //setCityIdList([...matches])
       
       let weatherData = []
       await Promise.all(matches.map(async (cityId) => {
-        // let request = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${cityId}&appid=${OPEN_WEATHER_KEY}`)
-        // let data = await request.json()
-        let data = {main : {temp: 273, temp_min: 273, temp_max: 273, feels_like: 273}, wind: {speed: 50, deg: 40}, name: "Test", weather: [{description: "Cloudy Overcast"}]}
+        try {
+          let request = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${cityId}&appid=${OPEN_WEATHER_KEY}`)
+          let data = await request.json()
+          let error = request.status !== 200 ? {name: cityId, err: "Failed to fetch city data"} : null
+          let cityData = request.status === 200 ? data : null
+          weatherData.push({
+            cityData, 
+            error
+          })
+          // let data = {main : 
 
-        //TODO: Implement API request
-        weatherData.push(data)
+          
+        } catch (error) {
+          console.log(error)
+        }
+        
       }))
       // console.log(weatherData);
-      setFinalWeatherList([...weatherData])
+      // if(weatherData.length == 0){
+      //   setFailedFetch(true)
+      // }
+      setFinalWeatherList(weatherData)
       setLoading(false)
       
     }
     // console.log('fetching')
-    getCityList()
     fetchCities(finalSearch)
-  }, [finalSearch])
+  }, [finalSearch, cities])
   
   //UseEffect
   useEffect(() => {
@@ -114,7 +125,6 @@ function App() {
         console.log(error)
       }
     }
-    getCityList()
     getGeoLocation()
     getLocalWeather()
 

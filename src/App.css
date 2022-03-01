@@ -17,7 +17,10 @@
 
 .navbar {
     width: 100vw;
-    background-color: red;
+    /* background-color: red; */
+    box-shadow: 0 0 5px 5px var(--outline-color);
+    background-color: rgb(70, 119, 211);
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -26,10 +29,16 @@
     position: relative;
 }
 
+.navbar .navlogo {
+    text-decoration: none;
+    color: white;
+    margin-left: 3em;
+}
+
 .dropdown {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 25px;
     max-height: 120px;
     transition: all .2s ease;
     margin-right: 5em;
@@ -43,10 +52,16 @@
     background-color: transparent;
     cursor: pointer;
     transition: all .1s ease;
+    border: 1px solid white;
+    border-radius: 25px;
+    color: white;
+    padding: .2em 1em;
+    /* padding: 1em; */
 }
 
 .dropdown button:hover {
-    color: white;
+    color: rgb(70, 119, 211);
+    background-color: #fff;
 }
 
 .dropdown ul {
@@ -55,15 +70,23 @@
     flex-direction: column;
     list-style: none;
     height: fit-content;
-    background-color: orange;
+    background-color: #fff;
+    border: 1px solid black;
 }
 
 .dropdown ul li {
-    margin: 0 2em;
+    padding: 0 2em;
+    width: 100%;
+    transition: all .2s ease;
+}
+
+.dropdown ul li:hover {
+    background-color: rgb(70, 119, 211);
+    color: white;
 }
 
 .dropdown.hidden {
-    max-height: 33px;
+    max-height: 45px;
 }
 
 .searchbar {
@@ -150,4 +173,10 @@
 
 .pageNav .next {
     border-radius: 0 25px 25px 0;
+}
+
+
+.no-results{
+    text-align: center;
+    color: red;
 }
