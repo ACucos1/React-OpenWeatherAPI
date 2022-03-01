@@ -26,61 +26,61 @@ function App() {
   const [localWeather, setLocalWeather] = useState({})
   const [visited, setVisited] = useState([])
   const [finalSearch, setFinalSearch] = useState("")
+  const [cities, setCities] = useState(null);
   const [finalWeatherList, setFinalWeatherList] = useState([])
   const [loading, setLoading] = useState(true)
-  let cityListJSON = useRef(null)
 
   const getCityList = async () => {
-      if(cityListJSON.current == null){
-        console.log("importing city id list")
+    if (!cities) {
+      try {
         let request = await fetch('../city.list.json')
-        try {
-          let data = await request.json()
-          cityListJSON.current = data;
-        } catch (error) {
-          console.log(error)
-        }
+        let data = await request.json()
+        setCities(data)
       }
+      catch (error) {
+        console.log(error)
+      }
+    }
   }
+
 
   useEffect(() => {
     getCityList()
-    
-  }, [finalSearch])
+  }, [])
+
 
   useEffect(() => {
     const fetchCities = async (cityName) => {
-      console.log('searching city Ids...')
-      console.log(cityListJSON.current);
-      let matches = []
-      if(cityListJSON.current){
-        cityListJSON.current.forEach(city => {
-          if(city.name.match(cityName)){
-            matches.push(city.id)
-          }
-        })
-      }
-      console.log(matches);
-      //setCityIdList([...matches])
-      
-      let weatherData = []
-      await Promise.all(matches.map(async (cityId) => {
-        // let request = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${cityId}&appid=${OPEN_WEATHER_KEY}`)
-        // let data = await request.json()
-        let data = {main : {temp: 273, temp_min: 273, temp_max: 273, feels_like: 273}, wind: {speed: 50, deg: 40}, name: "Test", weather: [{description: "Cloudy Overcast"}]}
+      if (cities) {
+        console.log('searching city Ids...')
+        console.log(cities);
+        let matches = []
+          cities.forEach(city => {
+            if(city.name.match(cityName)){
+              matches.push(city.id)
+            }
+          })
 
-        //TODO: Implement API request
-        weatherData.push(data)
-      }))
-      // console.log(weatherData);
-      setFinalWeatherList([...weatherData])
-      setLoading(false)
-      
+        console.log(matches);
+        //setCityIdList([...matches])
+
+        let weatherData = []
+        await Promise.all(matches.map(async (cityId) => {
+          // let request = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${cityId}&appid=${OPEN_WEATHER_KEY}`)
+          // let data = await request.json()
+          const data = {main : {temp: 273, temp_min: 273, temp_max: 273, feels_like: 273}, wind: {speed: 50, deg: 40}, name: "Test", weather: [{description: "Cloudy Overcast"}]}
+
+          //TODO: Implement API request
+          weatherData.push(data)
+        }))
+        // console.log(weatherData);
+        setFinalWeatherList(weatherData)
+        setLoading(false)
+      }
     }
-    // console.log('fetching')
-    getCityList()
+
     fetchCities(finalSearch)
-  }, [finalSearch])
+  }, [finalSearch, cities])
   
   //UseEffect
   useEffect(() => {
@@ -114,7 +114,6 @@ function App() {
         console.log(error)
       }
     }
-    getCityList()
     getGeoLocation()
     getLocalWeather()
 

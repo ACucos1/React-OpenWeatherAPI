@@ -31,7 +31,7 @@ export default function Searchbar({setFinalSearch}) {
     
     useEffect(() => {
         setSearchInput(id)
-        
+        setFinalSearch(id)
         // console.log('Trigger Fetch:', id);
     },[id])
     
