@@ -4,7 +4,7 @@ import Display from './Display'
 
 export default function DisplayVisited({visited}) {
     const {id} = useParams()
-    const [weather, setWeather] = useState(null )
+    const [weather, setWeather] = useState(null)
 
     useEffect(() => {
 
@@ -19,8 +19,8 @@ export default function DisplayVisited({visited}) {
     
     return (
         <>
-            
-            <Display weather={weather}/>  
+        
+            {weather && <Display weather={weather}/>}  
         </>
         
     )

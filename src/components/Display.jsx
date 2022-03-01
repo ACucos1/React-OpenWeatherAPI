@@ -32,7 +32,7 @@ export default function Display({weather, visited, setVisited}) {
       </>
       :
       <>
-        {console.log(weather)}
+        {/* {console.log(weather)} */}
         <h1>{weather.cityData && weather.cityData.name}</h1>
         <h2>{getCurrentdate()}</h2>
         <h3>{kelvinToCelsius(weather.cityData && weather.cityData.main.temp).toPrecision(2)}&deg;C</h3>
