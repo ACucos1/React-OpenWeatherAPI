@@ -55,7 +55,7 @@ function App() {
       let matches = []
       if(cities && cityName.length > 1){
         cities.forEach(city => {
-          if(city.name.match(cityName)){
+          if(cityName && city.name && city.name.toLowerCase().match(cityName.toLowerCase())){
             matches.push(city.id)
           }
         })

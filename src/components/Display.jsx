@@ -16,9 +16,9 @@ export default function Display({weather, visited, setVisited}) {
   }
 
   useEffect(() => {
-    // if(!weather){
-    //   navigate('/')
-    // }
+    if(!weather.cityData){
+      navigate('/')
+    }
 
   }, [weather, navigate])
 

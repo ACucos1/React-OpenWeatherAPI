@@ -19,7 +19,6 @@ export default function DisplayVisited({visited}) {
     
     return (
         <>
-        
             {weather && <Display weather={weather}/>}  
         </>
         
