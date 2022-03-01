@@ -5,7 +5,7 @@
 * (including web sites) or distributed to other students.
 *
 * Name: Alex Cucos Student ID: 044226090 Date: 02/23/2022
-* Heroku Link: ____________________
+* Heroku Link: https://acucos-react-weather-app.herokuapp.com/
 *
 ********************************************************************************/
 import { useState, useEffect } from 'react'
@@ -19,7 +19,8 @@ import DisplayVisited from './components/DisplayVisited'
 import './App.css';
 //d030e35a8156d1eb0017ec7da491a4b0
 // const OPEN_WEATHER_KEY = 'ed7b4eecbe0c58373393d2c6f8ab5ec2'
-const OPEN_WEATHER_KEY = 'd030e35a8156d1eb0017ec7da491a4b0'
+// const OPEN_WEATHER_KEY = 'd030e35a8156d1eb0017ec7da491a4b0'
+const OPEN_WEATHER_KEY = 'a6152bd209b07d413fc266b55624d02a'
 
 function App() {
   const [coords, setCoords] = useState({})
@@ -113,11 +114,13 @@ function App() {
     const getLocalWeather = async () => {
       try {
         // console.log(coords.lat, coords.lon)
+        console.log("Getting Local Weather...");
         if(coords.lat && coords.lon){
-          // let request = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&appid=${OPEN_WEATHER_KEY}`)
-          // let weatherData = await request.json()
-          let weatherData = {main : {temp: 273, temp_min: 273, temp_max: 273, feels_like: 273}, wind: {speed: 50, deg: 40}, name: "Test", weather: [{description: "Cloudy Overcast"}]}
-          setLocalWeather(weatherData)
+          let request = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&appid=${OPEN_WEATHER_KEY}`)
+          let weatherData = await request.json()
+          // let weatherData = {main : {temp: 273, temp_min: 273, temp_max: 273, feels_like: 273}, wind: {speed: 50, deg: 40}, name: "Test", weather: [{description: "Cloudy Overcast"}]}
+          let weather = {cityData: weatherData}
+          setLocalWeather(weather)
           // console.log(weatherData)
         }
       } 
@@ -136,8 +139,8 @@ function App() {
         <Navbar visited={visited}/>
         <Searchbar setFinalSearch={setFinalSearch}/>
         <Routes>
-          <Route path="/" element={localWeather.main ? <Display weather={localWeather}/> : <div>Loading...</div>}/>
-          <Route path="/search/:id" element={loading ? <div>Loading...</div> : <LocationList visited={visited} setVisited={setVisited} weatherList={finalWeatherList}/>}  />
+          <Route path="/" element={localWeather.cityData ? <Display weather={localWeather}/> : <div>Loading...</div>}/>
+          <Route path="/search/:id" element={finalWeatherList.length === 0 ? <div className="loading">Loading...</div> : <LocationList visited={visited} setVisited={setVisited} weatherList={finalWeatherList}/>}  />
           <Route path="/visited/:id" element={loading ? <div>Loading...</div> : <DisplayVisited visited={visited} setVisited={setVisited}/>}  />
         </Routes>
       </BrowserRouter>

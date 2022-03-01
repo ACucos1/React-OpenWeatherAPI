@@ -5,18 +5,23 @@ import Display from './Display'
 export default function DisplayVisited({visited}) {
     const {id} = useParams()
     const [weather, setWeather] = useState(null )
-    console.log(visited);
-    
+
     useEffect(() => {
+
         for(let i = 0; i < visited.length; i++){
-            if(visited[i].name == id){
+            if(visited[i].cityData.name === id){
                 setWeather(visited[i])
+                break;
             }
         }
     }, [setWeather, visited, id])
-
+    
     
     return (
-        <Display weather={weather}/>  
+        <>
+            
+            <Display weather={weather}/>  
+        </>
+        
     )
 }

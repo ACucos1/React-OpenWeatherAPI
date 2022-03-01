@@ -14,7 +14,7 @@ export default function Navbar({visited}) {
           <button onClick={() => {setHideDropDown(!hideDropDown)}}>Recently Visited</button>
           <ul>
               {visited.map((weather, idx) => (
-                <li onClick={() => {navigate('/visited/' + weather.name)}} key={idx}>{weather.name}</li>
+                <li onClick={() => {navigate('/visited/' + weather.cityData.name)}} key={idx}>{weather.cityData.name}</li>
               ))}
           </ul>
         </div>
