@@ -128,7 +128,7 @@ function App() {
         <Routes>
           <Route path="/" element={localWeather.main ? <Display weather={localWeather}/> : <div>Loading...</div>}/>
           <Route path="/search/:id" element={loading ? <div>Loading...</div> : <LocationList visited={visited} setVisited={setVisited} weatherList={finalWeatherList}/>}  />
-          <Route path="/visited/:id" element={loading ? <div>Loading...</div> : <DisplayVisited visited={visited} setVisited={setVisited} weatherList={finalWeatherList}/>}  />
+          <Route path="/visited/:id" element={loading ? <div>Loading...</div> : <DisplayVisited visited={visited} setVisited={setVisited}/>}  />
         </Routes>
       </BrowserRouter>
     </div>

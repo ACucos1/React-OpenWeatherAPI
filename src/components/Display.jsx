@@ -4,7 +4,9 @@ import { kelvinToCelsius, getCurrentdate } from '../utils'
 export default function Display({weather, visited, setVisited}) {
   // console.log(weather)
   const [showDetails, setShowDetails] = useState(false);
-  
+  console.log(weather);
+
+
   const handleExpand = () => {
     if(visited && visited.indexOf(weather) === -1)
       setVisited([...visited, weather])
@@ -18,26 +20,26 @@ export default function Display({weather, visited, setVisited}) {
 
   return (
     <div className="display">   
-      <h1>{weather.name}</h1>
+      <h1>{weather && weather.name}</h1>
       <h2>{getCurrentdate()}</h2>
-      <h3>{kelvinToCelsius(weather.main.temp).toPrecision(2)}&deg;C</h3>
+      <h3>{kelvinToCelsius(weather && weather.main.temp).toPrecision(2)}&deg;C</h3>
       <button onClick={handleExpand}>{!showDetails ? "+" : "-"}</button>
       {showDetails ? 
         <div>
           <div className="weather">
-            <span className="climate">{weather.weather[0].description}</span>
+            <span className="climate">{weather && weather.weather[0].description}</span>
             <br />
-            <span className="temp">Temperature: {kelvinToCelsius(weather.main.temp).toPrecision(2)}&deg;C</span>
+            <span className="temp">Temperature: {kelvinToCelsius(weather && weather.main.temp).toPrecision(2)}&deg;C</span>
             <br />
-            <span className="feelsLike">Feels Like: {kelvinToCelsius(weather.main.feels_like).toPrecision(2)}&deg;C</span>
+            <span className="feelsLike">Feels Like: {kelvinToCelsius(weather && weather.main.feels_like).toPrecision(2)}&deg;C</span>
             <br />
-            <span className="min">Low: {kelvinToCelsius(weather.main.temp_min).toPrecision(2)}&deg;C</span> 
+            <span className="min">Low: {kelvinToCelsius(weather && weather.main.temp_min).toPrecision(2)}&deg;C</span> 
             / 
-            <span className="max">High: {kelvinToCelsius(weather.main.temp_max).toPrecision(2)}&deg;C</span> 
+            <span className="max">High: {kelvinToCelsius(weather && weather.main.temp_max).toPrecision(2)}&deg;C</span> 
             <br />
-            <span className="wind">Wind Speed: {weather.wind.speed}Km/h</span>
+            <span className="wind">Wind Speed: {weather && weather.wind.speed}Km/h</span>
             <br />
-            <span className="wind">Wind Direction: {weather.wind.deg}&deg;</span>
+            <span className="wind">Wind Direction: {weather && weather.wind.deg}&deg;</span>
             <br />
           </div>
         </div>
