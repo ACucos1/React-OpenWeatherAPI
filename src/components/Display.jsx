@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { kelvinToCelsius, getCurrentdate } from '../utils'
 
 export default function Display({weather, visited, setVisited}) {
   // console.log(weather)
   const [showDetails, setShowDetails] = useState(false);
-  console.log(weather);
+  const navigate = useNavigate()
+  // console.log(weather);
 
 
   const handleExpand = () => {
@@ -14,7 +16,9 @@ export default function Display({weather, visited, setVisited}) {
   }
 
   useEffect(() => {
-    setShowDetails(false)
+    if(!weather){
+      navigate('/')
+    }
   }, [weather])
 
 

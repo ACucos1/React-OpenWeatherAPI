@@ -35,7 +35,6 @@ export default function Searchbar({setFinalSearch}) {
         // console.log('Trigger Fetch:', id);
     },[id])
     
-    
     return (
         <div className="searchbar">
             <input type="text" placeholder="Search..." value={searchInput} onChange={handleSearchChange}/>

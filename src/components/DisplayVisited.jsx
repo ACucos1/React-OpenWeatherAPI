@@ -6,7 +6,7 @@ export default function DisplayVisited({visited}) {
     const {id} = useParams()
     const [weather, setWeather] = useState(null )
     console.log(visited);
-
+    
     useEffect(() => {
         for(let i = 0; i < visited.length; i++){
             if(visited[i].name == id){
